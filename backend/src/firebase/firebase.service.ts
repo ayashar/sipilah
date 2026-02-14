@@ -1,8 +1,6 @@
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as admin from 'firebase-admin';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
@@ -17,30 +15,31 @@ export class FirebaseService implements OnModuleInit {
       return;
     }
 
-    const serviceAccountPath = this.configService.get<string>(
-      'FIREBASE_SERVICE_ACCOUNT_PATH',
-      './firebase-service-account.json',
-    );
+    const projectId = this.configService.get<string>('FIREBASE_PROJECT_ID');
+    const clientEmail = this.configService.get<string>('FIREBASE_CLIENT_EMAIL');
+    const privateKey = this.configService
+      .get<string>('FIREBASE_PRIVATE_KEY')
+      ?.replace(/\\n/g, '\n');
 
-    try {
-      const absolutePath = resolve(serviceAccountPath);
-      const serviceAccount = JSON.parse(readFileSync(absolutePath, 'utf-8'));
-
-      this.app = admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-        storageBucket: this.configService.get<string>('FIREBASE_STORAGE_BUCKET'),
-      });
-
-      this.logger.log('Firebase Admin SDK initialized successfully');
-    } catch (error) {
+    if (!projectId || !clientEmail || !privateKey) {
       this.logger.warn(
-        'Firebase service account not found. Running without Firebase connection. ' +
-        'Please provide firebase-service-account.json for production use.',
+        'Firebase credentials not found in environment variables. ' +
+        'Please set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY.',
       );
-
-      // Initialize with application default credentials as fallback
       this.app = admin.initializeApp();
+      return;
     }
+
+    this.app = admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId,
+        clientEmail,
+        privateKey,
+      }),
+      storageBucket: this.configService.get<string>('FIREBASE_STORAGE_BUCKET'),
+    });
+
+    this.logger.log('Firebase Admin SDK initialized successfully');
   }
 
   get firestore(): admin.firestore.Firestore {
