@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart'; // Needed for kIsWeb
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'website/pages/overview.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +19,20 @@ class WasteManagementApp extends StatelessWidget {
     return MaterialApp(
       title: 'Waste Management',
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
+        textTheme: GoogleFonts.urbanistTextTheme(),
       ),
-      home: const PlatformGuard(),
+
+      initialRoute: '/overview',
+
+      routes: {
+        '/overview': (context) => const OverviewPage(),
+        // '/analytics': (context) => const AnalyticsPage(),
+        // '/keuangan': (context) => const KeuanganPage(),
+      },
     );
   }
 }
@@ -44,21 +55,7 @@ class AdminFacade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey[50],
-      appBar: AppBar(title: const Text("ADMIN PORTAL (Web Only)")),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.monitor, size: 80, color: Colors.blueGrey),
-            SizedBox(height: 20),
-            Text("Welcome, Admin.", style: TextStyle(fontSize: 24)),
-            Text("Flow 3: Dashboard & Analytics"),
-          ],
-        ),
-      ),
-    );
+    return const OverviewPage();
   }
 }
 
@@ -84,3 +81,4 @@ class MobileFacade extends StatelessWidget {
     );
   }
 }
+
