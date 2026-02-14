@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'website/pages/overview.dart';
+import 'website/pages/analytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +31,7 @@ class WasteManagementApp extends StatelessWidget {
 
       routes: {
         '/overview': (context) => const OverviewPage(),
-        // '/analytics': (context) => const AnalyticsPage(),
+        '/analytics': (context) => const AnalyticsPage(),
         // '/keuangan': (context) => const KeuanganPage(),
       },
     );
