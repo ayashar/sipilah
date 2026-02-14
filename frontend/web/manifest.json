@@ -1,6 +1,6 @@
 {
-    "name": "sipilah",
-    "short_name": "sipilah",
+    "name": "frontend",
+    "short_name": "frontend",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
