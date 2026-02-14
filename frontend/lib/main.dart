@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'website/pages/auth.dart';
 import 'website/pages/overview.dart';
 import 'website/pages/analytics.dart';
 import 'website/pages/keuangan.dart';
@@ -28,9 +29,10 @@ class WasteManagementApp extends StatelessWidget {
         textTheme: GoogleFonts.urbanistTextTheme(),
       ),
 
-      initialRoute: '/overview',
+      initialRoute: '/',
 
       routes: {
+        '/': (context) => const AuthPage(),
         '/overview': (context) => const OverviewPage(),
         '/analytics': (context) => const AnalyticsPage(),
         '/keuangan': (context) => const KeuanganPage(),
@@ -83,4 +85,3 @@ class MobileFacade extends StatelessWidget {
     );
   }
 }
-
