@@ -89,10 +89,19 @@ class OverviewPage extends StatelessWidget {
                     child: DashboardCardWidget(
                       title: "Lokasi Penjemputan",
                       child: Center(
-                        child: Icon(
-                          Icons.map_outlined,
-                          size: 80,
-                          color: Colors.grey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(
+                              Icons.map_outlined,
+                              size: 80,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              "Heat Map feature is under development",
+                              style: TextStyle(color: Colors.grey, fontSize: 16),
+                            ),
+                          ],
                         ),
                       ),
                     ),
